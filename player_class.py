@@ -178,20 +178,20 @@ class Player:
 
     def gain_knowledge(self, knowledge: Knowledge):  # noqa - Tighten imports
         print(f"    You realize that {colored(knowledge.knowledge, self.player_color)}")
-
-        self.secrets[knowledge.name] = knowledge.knowledge
+        PlayerUpdater("secrets", knowledge.knowledge, "add", knowledge.name).do(self, None)
 
     def gain_item(self, item):
         if item.aspect == "sorrow":
             color_to_print = "blue"
-        elif item.world == "anger":
+        elif item.aspect == "anger":
             color_to_print = "red"
         elif item.aspect == "happiness":
             color_to_print = "yellow"
         else:
             color_to_print = "light_grey"
+
         print(f" You have gained {colored(item.name, color_to_print)}")
-        self.inventory[item.name] = item
+        PlayerUpdater("inventory", item, "add", item.name).do(self, None)
 
     # TODO: Decide if this stays here or goes elsewhere
     def enumerate_loot(self, lvl, hp, atk, items, color):
